@@ -39,7 +39,5 @@ class PhpNamespaceCopyCommand(sublime_plugin.WindowCommand):
 
 class PhpInsertUseCommand(sublime_plugin.WindowCommand):
     def run(self):
-        print "test"
         if is_php_file(self.window):
             insert_use_statement(self.window, get_namespace(self.window))
-           
