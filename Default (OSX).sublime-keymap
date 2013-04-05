@@ -1,0 +1,4 @@
+[  
+    { "keys": ["alt+c"], "command": "php_namespace_copy" },
+    { "keys": ["alt+u"], "command": "php_insert_use" }
+]  
