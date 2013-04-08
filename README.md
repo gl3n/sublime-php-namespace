@@ -22,5 +22,5 @@ Three commands are available :
 
 ## To do ##
 
-- Make "stop folder" configurable for `php_namespace_insert_namespace` command.
+- Add documentation for "stop folder" parameter in config file.
 
