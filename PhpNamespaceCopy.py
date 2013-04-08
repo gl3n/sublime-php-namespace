@@ -11,15 +11,14 @@ def get_namespace(window):
     rg = window.active_view().find('(class|interface) [a-zA-Z]+', 0)
     sclass = window.active_view().substr(rg)
     sclass = sclass[(sclass.index(' ')+1):]
-    return snamespace+'\\'+sclass+';'
+    return snamespace+'\\'+sclass
 
 def insert_use_statement(window, namespace):
-    instruct = 'use '+namespace
+    instruct = 'use '+namespace+';'
     sublime.set_clipboard(instruct)
     window.run_command('close_file', [])
     window.run_command('hide_overlay', [])
-    window.focus_view(window.active_view())
-    if is_php_file(window.active_view()):
+    if is_php_file(window):
         edit = window.active_view().begin_edit()
         regions = window.active_view().find_all('use (.*);', 0)
         if 0 == len(regions):
@@ -32,30 +31,35 @@ def insert_use_statement(window, namespace):
             text = window.active_view().substr(region)
             window.active_view().replace(edit, region, text+instruct+"\n")
 
+def build_namespace(view):
+    limits = [ "src" ]
+    folders = view.file_name().split(os.sep)
+    for limit in limits:
+        if limit in folders:
+            folders = folders[folders.index(limit):]
+    return "\\".join(folders[1:-1])
+
 class PhpNamespaceCopyCommand(sublime_plugin.WindowCommand):
     def run(self):
         if is_php_file(self.window.active_view()):
             sublime.set_clipboard(get_namespace(self.window))
+            self.window.run_command('close_file', [])
+            self.window.run_command('hide_overlay', [])
 
-class PhpInsertUseCommand(sublime_plugin.WindowCommand):
+class PhpNamespaceInsertUseCommand(sublime_plugin.WindowCommand):
     def run(self):
         if is_php_file(self.window.active_view()):
             insert_use_statement(self.window, get_namespace(self.window))
 
-class PhpNamespaceCommand(sublime_plugin.TextCommand):
+class PhpNamespaceInsertNamespaceCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         if is_php_file(self.view):
-            folders = filename.split(os.sep).reverse()
-            for folder in folders[1:-1]:
-                if (folder[0].upper() == folder[0]):
-                    if None == namespace:
-                        namespace = folder
-                    else:
-                        namespace = folder + "\\" + namespace
-
-            if None == namespace:
-                sublime.error_message("No folder " + breakwords.join(" or ") + "in file:\n" + filename)
-                return
-
-            for sel in self.view.sel():
-                self.view.insert(edit, sel.begin(), "namespace " + namespace + ";\n")
+            namespace = build_namespace(self.view)
+            if '' != namespace:
+                regions = self.view.find_all('<\?php', 0)
+                if 0 == len(regions):
+                    for sel in self.view.sel():
+                        self.view.insert(edit, sel.begin(), "namespace " + namespace + ";\n")                
+                else:
+                    region = self.view.line(regions[-1])
+                    self.view.insert(edit, region.end()+1, "\nnamespace " + namespace + ";\n\n")

@@ -1,6 +1,0 @@
-[
-	{
-		"caption": "Copy PHP namespace to clipboard",
-		"command": "php_namespace_copy"
-	}
-]
