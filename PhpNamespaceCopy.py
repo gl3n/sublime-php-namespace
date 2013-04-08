@@ -1,4 +1,4 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, os
 
 def is_php_file(view):
     if view.file_name().endswith('.php'):
@@ -62,4 +62,4 @@ class PhpNamespaceInsertNamespaceCommand(sublime_plugin.TextCommand):
                         self.view.insert(edit, sel.begin(), "namespace " + namespace + ";\n")                
                 else:
                     region = self.view.line(regions[-1])
-                    self.view.insert(edit, region.end()+1, "\nnamespace " + namespace + ";\n\n")
+                    self.view.insert(edit, region.end()+1, "\nnamespace " + namespace + ";\n")
