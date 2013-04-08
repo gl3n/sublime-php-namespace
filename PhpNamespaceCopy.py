@@ -1,7 +1,7 @@
 import sublime, sublime_plugin
 
-def is_php_file(window):
-    if window.active_view().file_name().endswith('.php'):
+def is_php_file(view):
+    if view.file_name().endswith('.php'):
         return True
     return False
 
@@ -19,7 +19,7 @@ def insert_use_statement(window, namespace):
     window.run_command('close_file', [])
     window.run_command('hide_overlay', [])
     window.focus_view(window.active_view())
-    if is_php_file(window):
+    if is_php_file(window.active_view()):
         edit = window.active_view().begin_edit()
         regions = window.active_view().find_all('use (.*);', 0)
         if 0 == len(regions):
@@ -34,10 +34,28 @@ def insert_use_statement(window, namespace):
 
 class PhpNamespaceCopyCommand(sublime_plugin.WindowCommand):
     def run(self):
-        if is_php_file(self.window):
+        if is_php_file(self.window.active_view()):
             sublime.set_clipboard(get_namespace(self.window))
 
 class PhpInsertUseCommand(sublime_plugin.WindowCommand):
     def run(self):
-        if is_php_file(self.window):
+        if is_php_file(self.window.active_view()):
             insert_use_statement(self.window, get_namespace(self.window))
+
+class PhpNamespaceCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        if is_php_file(self.view):
+            folders = filename.split(os.sep).reverse()
+            for folder in folders[1:-1]:
+                if (folder[0].upper() == folder[0]):
+                    if None == namespace:
+                        namespace = folder
+                    else:
+                        namespace = folder + "\\" + namespace
+
+            if None == namespace:
+                sublime.error_message("No folder " + breakwords.join(" or ") + "in file:\n" + filename)
+                return
+
+            for sel in self.view.sel():
+                self.view.insert(edit, sel.begin(), "namespace " + namespace + ";\n")
