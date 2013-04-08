@@ -32,7 +32,9 @@ def insert_use_statement(window, namespace):
             window.active_view().replace(edit, region, text+instruct+"\n")
 
 def build_namespace(view):
-    limits = [ "src" ]
+    settings = view.settings()
+    limits = settings.get('stop_folders')
+    print limits
     folders = view.file_name().split(os.sep)
     for limit in limits:
         if limit in folders:

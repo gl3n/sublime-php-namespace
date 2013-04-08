@@ -16,6 +16,16 @@
                         "children":
                         [
                             {
+                                "command": "open_file", 
+                                "args": {"file": "${packages}/PhpNamespace/Base File.sublime-settings"},
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file", 
+                                "args": {"file": "${packages}/User/Base File.sublime-settings"},
+                                "caption": "Settings – User"
+                            },
+                            {
                                 "command": "open_file",
                                 "args": {
                                     "file": "${packages}/PhpNamespace/Default (Windows).sublime-keymap",
