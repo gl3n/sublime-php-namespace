@@ -16,11 +16,19 @@ The package will be soon available via **Sublime Package Control**.
 
 Three commands are available :
 
-- `php_namespace_copy` (via *Goto File Overlay*) : build the focused file namespace and copy it in the clipboard. ( Default shortcut : "alt+c" )
-- `php_namespace_insert_use` (via *Goto File Overlay*) : build the "use" statement of the focused file namespace and insert it on the last active file. ( Default shortcut : "alt+u" )
-- `php_namespace_insert_namespace` : build and insert the current file namespace. ( Default shortcut : "alt+i" )
+- `php_namespace_copy` (via *Goto File Overlay*) : build the focused file namespace and copy it in the clipboard. (Default shortcut : `alt+c`)
+- `php_namespace_insert_use` (via *Goto File Overlay*) : build the "use" statement of the focused file namespace and insert it on the last active file. (Default shortcut : `alt+u`)
+- `php_namespace_insert_namespace` : build and insert the current file namespace. (Default shortcut : `alt+i`)
 
-## To do ##
+## Settings ##
 
-- Add documentation for "stop folder" parameter in config file.
+<pre>
+{
+    "php_namespace.stop_folders": [
+        "src",
+        "workspace"
+    ]
+}
+</pre>
 
+The `php_namespace.stop_folders` setting is used for `php_namespace_insert_namespace` command. It defines the folders where the namespace building has to stop.
