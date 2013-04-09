@@ -1,5 +1,6 @@
 {
-	"stop_folders": [
-		"src"
+	"php_namespace.stop_folders": [
+		"src",
+        "workspace"
 	]
 }
