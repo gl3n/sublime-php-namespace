@@ -34,7 +34,6 @@ def insert_use_statement(window, namespace):
 def build_namespace(view):
     settings = view.settings()
     limits = settings.get('stop_folders')
-    print limits
     folders = view.file_name().split(os.sep)
     for limit in limits:
         if limit in folders:
