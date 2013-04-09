@@ -18,7 +18,7 @@ def insert_use_statement(window, namespace):
     sublime.set_clipboard(instruct)
     window.run_command('close_file', [])
     window.run_command('hide_overlay', [])
-    if is_php_file(window):
+    if is_php_file(window.active_view()):
         edit = window.active_view().begin_edit()
         regions = window.active_view().find_all('use (.*);', 0)
         if 0 == len(regions):
