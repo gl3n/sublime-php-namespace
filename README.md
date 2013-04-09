@@ -16,9 +16,9 @@ The package will be soon available via **Sublime Package Control**.
 
 Three commands are available :
 
-- `php_namespace_copy` (via *Goto File Overlay*) : build the focused file namespace and copy it in the clipboard.
-- `php_namespace_insert_use` (via *Goto File Overlay*) : build the "use" statement of the focused file namespace and insert it on the last active file.
-- `php_namespace_insert_namespace` : build and insert the current file namespace.
+- `php_namespace_copy` (via *Goto File Overlay*) : build the focused file namespace and copy it in the clipboard. ( Default shortcut : "alt+c" )
+- `php_namespace_insert_use` (via *Goto File Overlay*) : build the "use" statement of the focused file namespace and insert it on the last active file. ( Default shortcut : "alt+u" )
+- `php_namespace_insert_namespace` : build and insert the current file namespace. ( Default shortcut : "alt+i" )
 
 ## To do ##
 
