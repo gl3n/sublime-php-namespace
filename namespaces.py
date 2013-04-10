@@ -8,7 +8,7 @@ def is_php_file(view):
 def get_namespace(window):
     rg = window.active_view().find('namespace (.*);', 0)
     snamespace = window.active_view().substr(rg)[10:][:-1]
-    rg = window.active_view().find('(class|interface) [a-zA-Z]+', 0)
+    rg = window.active_view().find('\n(class|interface) [a-zA-Z]+', 0)
     sclass = window.active_view().substr(rg)
     sclass = sclass[(sclass.index(' ')+1):]
     return snamespace+'\\'+sclass
