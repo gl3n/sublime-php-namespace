@@ -9,7 +9,7 @@ class namespaceTestCase(unittest.TestCase):
         assert is_php_file(view) == True
     def testIs_php_fileFalse(self):
         view = Mock()
-        view.file_name = Mock(return_value='test.html')
+        view.file_name = Mock(return_value='test'+os.sep+'test.html')
         assert is_php_file(view) == False
     def testGet_namespaceClass(self):
         view = Mock()
@@ -33,6 +33,20 @@ class namespaceTestCase(unittest.TestCase):
         view.settings = Mock(return_value=settings)
         view.file_name = Mock(return_value=os.sep.join(file_path))
         assert build_namespace(view) == 'folder3\\folder4'
-
+    def testInsert_namespace_statemenWithoutPhpStatement(self):
+        namespace = 'test1\\test2\\test3'
+        sel = Mock()
+        sel.begin = Mock(return_value=None)
+        view = Mock()
+        view.find_all = Mock(return_value=[])
+        view.sel = Mock(return_value=[sel])
+        insert_namespace_statement(view, None, namespace)
+        view.insert.assert_called_once_with(None, unittest.mock.ANY, "namespace "+namespace+";\n")
+    def testInsert_namespace_statemenWithPhpStatement(self):
+        namespace = 'test1\\test2\\test3'
+        view = Mock()
+        view.find_all = Mock(return_value=['0'])
+        insert_namespace_statement(view, None, namespace)
+        view.insert.assert_called_once_with(None, unittest.mock.ANY, "\nnamespace "+namespace+";\n")
 if __name__ == "__main__":
     unittest.main()

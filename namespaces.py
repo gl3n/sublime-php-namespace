@@ -48,4 +48,4 @@ def insert_namespace_statement(view, edit, namespace):
                 view.insert(edit, sel.begin(), full_namespace)
         else:
             region = view.line(regions[-1])
-            view.insert(edit, region.end()+1, "\n"+full_namespace)
+            view.insert(edit, region.end(), "\n"+full_namespace)
