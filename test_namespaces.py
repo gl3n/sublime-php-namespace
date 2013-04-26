@@ -38,15 +38,16 @@ class namespaceTestCase(unittest.TestCase):
         sel = Mock()
         sel.begin = Mock(return_value=None)
         view = Mock()
+        view.find = Mock(return_value=None)
         view.find_all = Mock(return_value=[])
         view.sel = Mock(return_value=[sel])
         insert_namespace_statement(view, None, namespace)
-        view.insert.assert_called_once_with(None, unittest.mock.ANY, "namespace "+namespace+";\n")
+        view.insert.assert_called_once_with(None, unittest.mock.ANY, "namespace " + namespace + ";\n")
     def testInsert_namespace_statemenWithPhpStatement(self):
         namespace = 'test1\\test2\\test3'
         view = Mock()
         view.find_all = Mock(return_value=['0'])
         insert_namespace_statement(view, None, namespace)
-        view.insert.assert_called_once_with(None, unittest.mock.ANY, "\nnamespace "+namespace+";\n")
+        view.replace.assert_called_once_with(None, unittest.mock.ANY, "namespace " + namespace + ";")
 if __name__ == "__main__":
     unittest.main()
