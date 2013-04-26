@@ -33,19 +33,25 @@ def insert_use_statement(window, namespace):
             region = window.active_view().find('namespace (.*);', 0)
             region = window.active_view().full_line(region)
             text = window.active_view().substr(region)
-            window.active_view().replace(edit, region, text+"\n"+instruct+"\n")
+            window.active_view().replace(edit, region, text + "\n" + instruct + "\n")
         else:
             region = window.active_view().full_line(regions[-1])
             text = window.active_view().substr(region)
-            window.active_view().replace(edit, region, text+instruct+"\n")
+            window.active_view().replace(edit, region, text + instruct + "\n")
 
 def insert_namespace_statement(view, edit, namespace):
     if '' != namespace:
-        full_namespace = "namespace " + namespace + ";\n"
-        regions = view.find_all('<\?php', 0)
-        if 0 == len(regions):
-            for sel in view.sel():
-                view.insert(edit, sel.begin(), full_namespace)
+        full_namespace = "namespace " + namespace + ";"
+        region = view.find('namespace (.*);', 0)
+        if region is None:
+            regions = view.find_all('<\?php', 0)
+
+            if 0 == len(regions):
+                for sel in view.sel():
+                    view.insert(edit, sel.begin(), full_namespace + "\n")
+            else:
+                region = view.line(regions[-1])
+                view.insert(edit, region.end(), "\n\n" + full_namespace)
         else:
-            region = view.line(regions[-1])
-            view.insert(edit, region.end(), "\n\n"+full_namespace)
+            region = view.line(region)
+            view.replace(edit, region, full_namespace)
