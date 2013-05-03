@@ -5,6 +5,19 @@ def is_php_file(view):
         return True
     return False
 
+def is_file_opened(window, view):
+    for wview in window.views():
+        if wview.id() == view.id():
+            return True
+    return False
+
+def close_overlay(window, currentView):
+    if not is_file_opened(window, window.active_view()):
+        window.run_command('close', [])
+    else:
+        window.focus_view(currentView)
+    window.run_command('hide_overlay', [])
+
 def get_namespace(window):
     rg = window.active_view().find('namespace (.*);', 0)
     snamespace = window.active_view().substr(rg)[10:][:-1]
@@ -21,23 +34,20 @@ def build_namespace(view):
         if limit in folders:
             folders = folders[folders.index(limit):]
     return "\\".join(folders[1:-1])
-    
-def insert_use_statement(window, namespace):
+
+def insert_use_statement(view, namespace):
     instruct = 'use '+namespace+';'
-    window.run_command('close_file', [])
-    window.run_command('hide_overlay', [])
-    if is_php_file(window.active_view()):
-        edit = window.active_view().begin_edit()
-        regions = window.active_view().find_all('use (.*);', 0)
-        if 0 == len(regions):
-            region = window.active_view().find('namespace (.*);', 0)
-            region = window.active_view().full_line(region)
-            text = window.active_view().substr(region)
-            window.active_view().replace(edit, region, text + "\n" + instruct + "\n")
-        else:
-            region = window.active_view().full_line(regions[-1])
-            text = window.active_view().substr(region)
-            window.active_view().replace(edit, region, text + instruct + "\n")
+    edit = view.begin_edit()
+    regions = view.find_all('use (.*);', 0)
+    if 0 == len(regions):
+        region = view.find('namespace (.*);', 0)
+        region = view.full_line(region)
+        text = view.substr(region)
+        view.replace(edit, region, text + "\n" + instruct + "\n")
+    else:
+        region = view.full_line(regions[-1])
+        text = view.substr(region)
+        view.replace(edit, region, text + instruct + "\n")
 
 def insert_namespace_statement(view, edit, namespace):
     if '' != namespace:
