@@ -38,7 +38,7 @@ def build_namespace(view):
 def insert_use_statement(view, namespace):
     instruct = 'use '+namespace+';'
     edit = view.begin_edit()
-    regions = view.find_all('use (.*);', 0)
+    regions = view.find_all('\nuse (.*);', 0)
     if 0 == len(regions):
         region = view.find('namespace (.*);', 0)
         region = view.full_line(region)
