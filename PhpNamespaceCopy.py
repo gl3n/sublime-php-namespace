@@ -1,6 +1,6 @@
 import sublime, sublime_plugin, os
 
-from namespaces import *
+from PhpNamespace.namespaces import *
 
 global currentView
 
