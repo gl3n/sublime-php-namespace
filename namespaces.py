@@ -35,9 +35,8 @@ def build_namespace(view):
             folders = folders[folders.index(limit):]
     return "\\".join(folders[1:-1])
 
-def insert_use_statement(view, namespace):
+def insert_use_statement(view, edit, namespace):
     instruct = 'use '+namespace+';'
-    edit = view.begin_edit()
     regions = view.find_all('\nuse (.*);', 0)
     if 0 == len(regions):
         region = view.find('namespace (.*);', 0)
