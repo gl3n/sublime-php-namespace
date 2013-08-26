@@ -52,9 +52,8 @@ def insert_namespace_statement(view, edit, namespace):
     if '' != namespace:
         full_namespace = "namespace " + namespace + ";"
         region = view.find('namespace (.*);', 0)
-        if region is None:
+        if region is None or (region.a < 0 and region.b < 0):
             regions = view.find_all('<\?php', 0)
-
             if 0 == len(regions):
                 for sel in view.sel():
                     view.insert(edit, sel.begin(), full_namespace + "\n")
