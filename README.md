@@ -1,8 +1,8 @@
 # SublimeText PHP Namespace #
 
-PHP Namespace is a **3 in 1** package to use **PHP Namespaces** with **SublimeText**.
+PHP Namespace is a **3 in 1** package to use **PHP Namespaces** with **SublimeText 2 and 3**.
 
-## Installation on SublimeText 2 ##
+## Installation ##
 
 ### With Package Control ###
 
@@ -10,27 +10,13 @@ Look for the package named `PhpNamespace`.
 
 ### With Git ###
 
-Move to your SublimeText2 Packages folder and clone it :
+Move to your SublimeText Packages folder and clone it :
 
 ```
 git clone https://github.com/gl3n/sublime-php-namespace PhpNamespace
 ```
 
-## Installation on SublimeText3 ##
-
-### Manual Installation ###
-
-[Download](https://github.com/gl3n/sublime-php-namespace/archive/ST3.zip), unzip, rename folder to PhpNamespace and put it in your SublimeText3 Packages folder.
-
-### With Git ###
-
-Move to your SublimeText3 Packages folder and clone it :
-
-```
-git clone https://github.com/gl3n/sublime-php-namespace PhpNamespace
-```
-
-Checkout ST3 branch :
+If you have **SublimeText 3**, use ``ST3`` branch :
 
 ```
 git checkout ST3
