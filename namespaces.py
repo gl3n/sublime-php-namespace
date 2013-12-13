@@ -35,18 +35,36 @@ def build_namespace(view):
             folders = folders[folders.index(limit):]
     return "\\".join(folders[1:-1])
 
+# Find all regions situate before class declaration
+def find_all_use_regions(view):
+    regions = view.find_all('^use (.*);', 0)
+    # Detect first class or interface or trait
+    minClassRegionChar = view.find('^(class|interface|trait|final|abstract)', 0).begin()
+    returnedRegions = []
+    for region in regions:
+        # If region.begin is superior than minClassRegionChar, it mean that region is after class declaration
+        if region.begin() < minClassRegionChar:
+            returnedRegions.append(region)
+    return returnedRegions
+
 def insert_use_statement(view, edit, namespace):
-    instruct = 'use '+namespace+';'
-    regions = view.find_all('\nuse (.*);', 0)
+    instruct = 'use '+ namespace +';'
+    regions = find_all_use_regions(view)
     if 0 == len(regions):
         region = view.find('namespace (.*);', 0)
         region = view.full_line(region)
         text = view.substr(region)
         view.replace(edit, region, text + "\n" + instruct + "\n")
     else:
-        region = view.full_line(regions[-1])
-        text = view.substr(region)
-        view.replace(edit, region, text + instruct + "\n")
+        alreadyExist = False
+        for region in regions:
+            text = view.substr(region)
+            if text == instruct:
+                alreadyExist = True
+        if alreadyExist is False:
+            region = regions[-1]
+            text = view.substr(region)
+            view.replace(edit, region, text +'\n'+ instruct)
 
 def insert_namespace_statement(view, edit, namespace):
     if '' != namespace:
