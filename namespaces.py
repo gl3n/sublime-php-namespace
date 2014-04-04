@@ -1,22 +1,12 @@
-import os
+import sublime, os
 
-def is_php_file(view):
-    if view.file_name().endswith('.php'):
-        return True
-    return False
-
-def is_file_opened(window, view):
-    for wview in window.views():
-        if wview.id() == view.id():
-            return True
-    return False
-
-def close_overlay(window, currentView):
-    if not is_file_opened(window, window.active_view()):
-        window.run_command('close', [])
-    else:
-        window.focus_view(currentView)
-    window.run_command('hide_overlay', [])
+def clean_namespaces(view, edit):
+    minClassRegionChar = view.find('^(class|interface|trait|final|abstract) (.*)', 0).begin()
+    useRegions = find_all_use_regions(view)
+    for region in useRegions:
+        classname = view.substr(region).split('\\')[-1].split(';')[0].split(' as ')[-1]
+        if not view.find(classname, minClassRegionChar, sublime.LITERAL):
+            view.erase(edit, view.full_line(region))
 
 def get_namespace(window):
     rg = window.active_view().find('namespace (.*);', 0)
