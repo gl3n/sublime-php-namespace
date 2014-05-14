@@ -1,7 +1,7 @@
 import sublime, os
 
 def clean_namespaces(view, edit):
-    minClassRegionChar = view.find('^(class|interface|trait|final|abstract) (.*)', 0).begin()
+    minClassRegionChar = view.find('^(class|interface|trait|final|abstract)', 0).begin()
     useRegions = find_all_use_regions(view)
     for region in useRegions:
         classname = view.substr(region).split('\\')[-1].split(';')[0].split(' as ')[-1]
