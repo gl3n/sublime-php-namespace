@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "PHP Namespace: Insert",
+        "command": "php_namespace_insert_namespace"
+    },
+    {
+        "caption": "PHP Namespace: Copy",
+        "command": "php_namespace_copy"
+    },
+    {
+        "caption": "PHP Namespace: Insert Use",
+        "command": "php_namespace_insert_use"
+    }
+]
